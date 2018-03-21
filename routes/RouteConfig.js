@@ -12,8 +12,8 @@ class RouteConfig  {
 
         app.use('/', index);
         app.use('/exam', exam);
-        app.use( codes.WEB_PROXY_PATH + '/auths', auths);
-        app.use( codes.WEB_PROXY_PATH + '/content', content);
+        app.use( codes.WEB_PROXY_PATH + '/Auths', auths);
+        app.use( codes.WEB_PROXY_PATH + '/Content', content);
     }
 
 }

@@ -3,12 +3,12 @@ import winston from 'winston';
 class CookieManager {
 
 
-    static getCookieName = () => 'siteInfo';
+    static getCookieName = () => 'webCertInfo';
     static getCookieSetting = () => {
         let exporeDate = new Date();
         exporeDate.setDate(exporeDate.getDate() + 365);
 
-        return { expires:exporeDate, httpOnly: true ,signed:true}
+        return { expires:exporeDate, httpOnly: true}
         //return { expires: new Date(Date.now() + 900000), httpOnly: true};
     }
 
@@ -33,7 +33,7 @@ class CookieManager {
 
     static getCookies (req, cookieName = this.getCookieName()) {
 
-        return  req.signedCookies[cookieName];
+        return  req.cookies[cookieName];
     };
 
     static getUserHash (req, cookieName = this.getCookieName()) {

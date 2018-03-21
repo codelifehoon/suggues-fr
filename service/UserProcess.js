@@ -58,7 +58,10 @@ class UserProcess {
         axios.post( codes.API_USER + '/AddUser' ,userPost)
             .then(res =>{
             console.error('>>> :');
-            done(null, user,{ message:JSON.stringify(res.data) });
+
+            const data = {userHash:res.data.userHash};
+
+            done(null, user,{ message:JSON.stringify(data) });
             }).catch(err => { console.error('>>>> :' + err); done(null, false, { message: err.message }); });
 
 
