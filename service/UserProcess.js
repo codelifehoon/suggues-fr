@@ -22,6 +22,7 @@ class UserProcess {
     };
 
 
+
     static addUser = (user,done) => {
 
         let userPost = {
