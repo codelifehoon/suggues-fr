@@ -37,17 +37,20 @@ class UserProcess {
             //userDesc: user.accessToken
         };
 
+        console.log('######################');
+        console.log(user);
         if (user.provider === 'google'){
-                if (user.photos ) {
+                if (user.photos ) { userPost.userPhotos =user.photos[0].value }
 
-                        userPost.userPhotos =user.photos[0].value
-
-                }
         }  else if (user.provider === 'naver') {
             if (user._json.profile_image)
             {
                 userPost.userPhotos = user._json.profile_image;
             }
+        }else if (user.provider === 'facebook') {
+
+                userPost.userPhotos = 'http://graph.facebook.com/'+ user.id +'/picture?type=square';
+
         }
 
 

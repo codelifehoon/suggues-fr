@@ -4,20 +4,31 @@ import {Strategy as NaverStrategy} from 'passport-naver';
 import {OAuth2Strategy as GoogleStrategy} from 'passport-google-oauth';
 import * as codes from '~/com/static/commonCode';
 import UserProcess from '~/service/UserProcess';
-import CookieManager from '~/com/util/CookieManager';
+import cookieManager from "../../com/util/CookieManager";
 
+
+//http://localhost:7070/sv/oAuth/google?cb=http://localhost:3000/contentMain?eventContentNo=91
 
 function setLoginInit (req,res,err, user, info) {
     {
+        let callbackUrl ='http://localhost:3000';
         if (err) {  console.log(err); return res.redirect(codes.WEB_URL + '?loginSuccess=exception');}
         if (!user){
             return res.redirect(codes.WEB_URL + '?loginSuccess=fail&message='+info.message);
         }
 
-        CookieManager.setCookies(req, res, JSON.parse(info.message));
-        return res.redirect(codes.WEB_URL + '?loginSuccess=true');
+        if (cookieManager.getCb(req)){
+            callbackUrl = cookieManager.getCb(req);
+            cookieManager.removeAll(res);
+        }
+
+        cookieManager.setCookies(req, res, JSON.parse(info.message));
+
+        return res.redirect(callbackUrl);
     }
 }
+
+
 
 class OAuthManager
 {
@@ -68,7 +79,8 @@ class OAuthManager
         passport.use(new FacebookStrategy({
                 clientID: '1747638782217034',
                 clientSecret: 'bdfc6ed55ae6417a5cb6a68589cfde00',
-                callbackURL: codes.NODE_URL + codes.WEB_PROXY_PATH + "/oAuth/facebook/callback"
+                callbackURL: codes.NODE_URL + codes.WEB_PROXY_PATH + "/oAuth/facebook/callback",
+                // profileFields: ['displayName','profileUrl']
             },
             function (accessToken, refreshToken, profile, done) {
                 profile.accessToken = accessToken;
@@ -78,7 +90,7 @@ class OAuthManager
     }
 
     facebookRouter = (app) => {
-        app.get(codes.WEB_PROXY_PATH + '/oAuth/facebook', passport.authenticate('facebook'));
+        app.get(codes.WEB_PROXY_PATH + '/oAuth/facebook' , passport.authenticate('facebook'));
         app.get(codes.WEB_PROXY_PATH + '/oAuth/facebook/callback',function(req, res, next){
 
             passport.authenticate('facebook', (err, user, info) => {
@@ -131,7 +143,7 @@ class OAuthManager
 
 
     googleRouter(app) {
-        app.get(codes.WEB_PROXY_PATH + '/oAuth/google', passport.authenticate('google', {scope: ['openid', 'email']}));
+        app.get(codes.WEB_PROXY_PATH + '/oAuth/google', (req, res, next) => {this.saveCallBack(req, res, next);}, passport.authenticate('google', {scope: ['openid', 'email']}));
         app.get(codes.WEB_PROXY_PATH + '/oAuth/google/callback',function(req, res, next){
 
             passport.authenticate('google', (err, user, info) => {
@@ -141,15 +153,27 @@ class OAuthManager
 
     }
 
-    ensureAuthenticated =(req, res, next) =>  { next(); }
+    ensureAuthenticated =(req, res, next) =>  {
+        console.log('#####ensureAuthenticated');
+        console.log(req.query.cd);
+        next();
+    }
 
+    saveCallBack = (req, res, next) =>{
 
+        const cookieinfo = {cb:req.query.cb};
+        cookieManager.setCookies(req, res,cookieinfo);
+        next();
 
+    }
 
-
-
+    // http://localhost:7070/sv/oAuth/google?cb=http%3A%2F%2Flocalhost%3A3000%2F
+    // http://localhost:3000/contentMain?eventContentNo=91
+    // http://localhost:3000/contentMain?eventContentNo=91
+    // http://localhost:3000/contentMain?eventContentNo=91&name=%EC%9E%A5%EC%9E%AC%ED%9B%88
 }
 export  default (OAuthManager);
+
 
 
 

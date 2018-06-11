@@ -8,15 +8,14 @@ class CookieManager {
         let exporeDate = new Date();
         exporeDate.setDate(exporeDate.getDate() + 365);
 
-        return { expires:exporeDate, httpOnly: true}
+        return { expires:exporeDate}
+        // return { expires:exporeDate, httpOnly: true}
         //return { expires: new Date(Date.now() + 900000), httpOnly: true};
     }
 
     static isCookies(req, cookieName = this.getCookieName()) {
 
-        console.log(req.signedCookies[cookieName]);
-
-        if (typeof(req.signedCookies[cookieName]) === 'undefined') return false;
+        if (typeof(req.cookies[cookieName]) === 'undefined') return false;
         return true;
 
     }
@@ -49,11 +48,21 @@ class CookieManager {
 
     };
 
+    static getCb (req, cookieName = this.getCookieName()) {
+
+        if (this.isCookies(req,cookieName)) return this.getCookies(req,cookieName).cb;
+        else return '';
+
+    };
+
+
 
     static removeAll (res, cookieName = this.getCookieName()) {
 
         res.cookie(cookieName , '' );
     };
+
+
 
 }
 

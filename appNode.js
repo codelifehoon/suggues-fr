@@ -15,6 +15,11 @@ import RouteConfig from '~/routes/RouteConfig';
 
 let oam = new oAuthManager();
 
+
+process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() == 'production' ) ? 'production' : 'development';
+
+console.log('set NODE_ENV after :' + process.env.NODE_ENV );
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -36,6 +41,8 @@ oam.oAuthInit(app);
 
 
 winston.level='debug';
+
+
 
 // var sProxy = new serverProxy();
 // sProxy.initProxy('127.0.0.1:7070',app);
