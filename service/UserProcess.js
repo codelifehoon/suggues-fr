@@ -1,7 +1,7 @@
 'use strict'
-import fetch from 'node-fetch';
 import axios from 'axios';
-import * as codes from '~/com/static/commonCode';
+import * as codes from "../com/static/commonCode";
+
 
 
 class UserProcess {

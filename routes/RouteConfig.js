@@ -2,7 +2,7 @@ import exam from './exam';
 import index from './index';
 import auths from './sv/auths';
 import content from './sv/content';
-import * as codes from '~/com/static/commonCode';
+import * as codes from "../com/static/commonCode";
 
 
 

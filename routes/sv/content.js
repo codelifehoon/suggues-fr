@@ -1,22 +1,22 @@
 import express from 'express';
-import cookieManager from '~/com/util/CookieManager';
-import axios from "axios/index";
-import LinkPreview from 'react-native-link-preview';
+// import cookieManager from '~/com/util/CookieManager';
+// import axios from "axios/index";
+// import LinkPreview from 'react-native-link-preview';
 
 
 let router = express.Router();
 
-
 router.get('/urlPreview', function(req, res) {
 
-
-
-    const fetchUrl = req.query.fetchUrl;
+/*    const fetchUrl = req.query.fetchUrl;
     console.log(fetchUrl);
 
     LinkPreview.getPreview(fetchUrl, {imagesPropertyType: 'og',})
-        .then(data => { return res.json(data)} );
+        .then(data => { return res.json(data)} );*/
+
+    return '';
 });
+
 
 
 /*

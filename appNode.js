@@ -1,5 +1,6 @@
 'use strict';
 
+import OAuthManager from "./com/oAuth/OAuthManager";
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,16 +10,17 @@ var bodyParser = require('body-parser');
 var serverProxy = require('./routes/serverProxy');
 var app = express();
 
-import oAuthManager from './com/oAuth/oAuthManager';
 import winston from 'winston';
 import RouteConfig from '~/routes/RouteConfig';
 
-let oam = new oAuthManager();
+let oam = new OAuthManager();
 
+
+console.log('set NODE_ENV after :' + process.env.NODE_ENV );
 
 process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() == 'production' ) ? 'production' : 'development';
 
-console.log('set NODE_ENV after :' + process.env.NODE_ENV );
+console.log('set NODE_ENV before :' + process.env.NODE_ENV );
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

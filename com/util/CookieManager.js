@@ -1,4 +1,6 @@
 import winston from 'winston';
+import * as codes from "../static/commonCode";
+
 
 class CookieManager {
 
@@ -8,7 +10,9 @@ class CookieManager {
         let exporeDate = new Date();
         exporeDate.setDate(exporeDate.getDate() + 365);
 
-        return { expires:exporeDate}
+
+
+        return {domain: codes.COOKIE_DOMAIN ,  expires:exporeDate}
         // return { expires:exporeDate, httpOnly: true}
         //return { expires: new Date(Date.now() + 900000), httpOnly: true};
     }
@@ -40,7 +44,7 @@ class CookieManager {
         if (this.isCookies(req,cookieName)) return this.getCookies(req,cookieName).userHash;
         else return '';
     };
-
+y
     static getUserProvider (req, cookieName = this.getCookieName()) {
 
         if (this.isCookies(req,cookieName)) return this.getCookies(req,cookieName).userProvider ;
@@ -59,7 +63,7 @@ class CookieManager {
 
     static removeAll (res, cookieName = this.getCookieName()) {
 
-        res.cookie(cookieName , '' );
+        res.cookie(cookieName , ''  , this.getCookieSetting());
     };
 
 

@@ -3,7 +3,7 @@
 
 
 import express  from 'express';
-import cookieManager from '../com/util/cookieManager';
+import cookieManager from '../com/util/CookieManager';
 let router = express.Router();
 
 

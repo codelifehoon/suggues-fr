@@ -2,16 +2,16 @@ import passport from  'passport';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 import {Strategy as NaverStrategy} from 'passport-naver';
 import {OAuth2Strategy as GoogleStrategy} from 'passport-google-oauth';
-import * as codes from '~/com/static/commonCode';
 import UserProcess from '~/service/UserProcess';
 import cookieManager from "../../com/util/CookieManager";
+import * as codes from "../static/commonCode";
 
 
 //http://localhost:7070/sv/oAuth/google?cb=http://localhost:3000/contentMain?eventContentNo=91
 
 function setLoginInit (req,res,err, user, info) {
     {
-        let callbackUrl ='http://localhost:3000';
+        let callbackUrl = codes.WEB_URL;
         if (err) {  console.log(err); return res.redirect(codes.WEB_URL + '?loginSuccess=exception');}
         if (!user){
             return res.redirect(codes.WEB_URL + '?loginSuccess=fail&message='+info.message);
@@ -127,8 +127,8 @@ class OAuthManager
 
     googleInit = (app) => {
         passport.use(new GoogleStrategy({
-                clientID: '118377482793-fthj3bhnvd2jd1vtj4l2j2ib83pcvoeu.apps.googleusercontent.com',
-                clientSecret: 'hSy6lL0UJN-EZqv88MvY_WaP',
+                clientID: '130195882344-8hvernj7vv07l1nt5v321lpc707b1c66.apps.googleusercontent.com',
+        clientSecret: 'bjH-jE-_65wwve8dCbvt3Ake',
                 callbackURL: codes.NODE_URL+ codes.WEB_PROXY_PATH  + "/oAuth/google/callback"
             },
             function (accessToken, refreshToken, profile, done) {
