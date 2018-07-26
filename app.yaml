@@ -1,4 +1,0 @@
-service: nodeservice
-runtime: nodejs
-env: flex
-threadsafe: yes
